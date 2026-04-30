@@ -1,8 +1,8 @@
 `timescale 1ns / 1ps
 
 module pwm_generator #(
-    parameter int PERIOD_CYCLES = 50_000_000,
-    parameter int DUTY_CYCLES = 25_000_000
+    parameter int PERIOD_CYCLES = 50_000_000, // clocks per period (e.g., 50 million for 1 Hz with a 50 MHz clock)
+    parameter int DUTY_CYCLES = 25_000_000 // clocks for high time (e.g., 25 million for 50% duty cycle)
 ) (
     input logic clk,
     input logic rst,
