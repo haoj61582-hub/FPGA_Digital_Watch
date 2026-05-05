@@ -59,7 +59,7 @@ async def test_stopwatch(dut):
     # Section 2: counter advances after start button is pressed (button[0])
     # -----------------------------------------------------------------------
     cocotb.log.info("Section 2: counter advances after start")
-    await press(dut, 0)  # start/stop → start
+    await press(dut, 0)  # start/stop -> start
     cs_after_start = int(dut.seconds_disp.value)
     await tick_n(dut, 4 * CSTICK)
     assert int(dut.seconds_disp.value) > cs_after_start, (
@@ -70,7 +70,7 @@ async def test_stopwatch(dut):
     # Section 3: counter freezes after stop button is pressed
     # -----------------------------------------------------------------------
     cocotb.log.info("Section 3: counter freezes after stop")
-    await press(dut, 0)  # start/stop → stop
+    await press(dut, 0)  # start/stop -> stop
     cs_stopped = int(dut.seconds_disp.value)
     await tick_n(dut, 4 * CSTICK)
     assert int(dut.seconds_disp.value) == cs_stopped, (
@@ -85,7 +85,7 @@ async def test_stopwatch(dut):
     await press(dut, 0)  # start again
     await tick_n(dut, 4 * CSTICK)
     cs_at_lap = int(dut.seconds_disp.value)
-    await press(dut, 1)  # lap → freeze display
+    await press(dut, 1)  # lap -> freeze display
     await tick_n(dut, 8 * CSTICK)  # counter keeps running; display frozen
     assert int(dut.seconds_disp.value) == cs_at_lap, (
         "seconds_disp must remain at the lap value while hold is active"
@@ -109,7 +109,7 @@ async def test_stopwatch(dut):
     cocotb.log.info("Section 6: lap while stopped resets the counter")
     await press(dut, 0)  # stop
     await tick_n(dut, 2)
-    await press(dut, 1)  # lap while stopped → reset
+    await press(dut, 1)  # lap while stopped -> reset
     await tick_n(dut, 2)
     assert int(dut.seconds_disp.value) == 0, "seconds_disp must be 0 after reset"
     assert int(dut.minutes_disp.value) == 0, "minutes_disp must be 0 after reset"

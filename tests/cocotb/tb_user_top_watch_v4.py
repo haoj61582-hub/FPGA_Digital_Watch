@@ -48,12 +48,12 @@ async def test_divider_reset_on_exit_seconds_edit(dut):
     What is checked:
       1. After exiting seconds edit, seconds_disp does NOT advance for the
          first CPS//2 cycles.  Without the reset the divider would have been
-         at count ≈ CPS//2 + 1 before the exit press and the tick would have
+         at count ~ CPS//2 + 1 before the exit press and the tick would have
          already fired by this point.
       2. seconds_disp DOES advance within a further CPS cycles, confirming
          the divider is running and the tick eventually fires.
       3. After subsequently exiting minutes edit (entering hours edit),
-         seconds_disp advances on the normal schedule — confirming no second
+         seconds_disp advances on the normal schedule - confirming no second
          divider reset occurred.
     """
     cocotb.start_soon(Clock(dut.clk, 10, unit="ns").start())
@@ -73,11 +73,11 @@ async def test_divider_reset_on_exit_seconds_edit(dut):
     seconds_before_exit = int(dut.seconds_disp.value)
     cocotb.log.info(
         f"seconds_disp before exit: {seconds_before_exit}  "
-        f"(divider count ≈ {CPS // 2})"
+        f"(divider count ~ {CPS // 2})"
     )
 
-    # Exit seconds edit → minutes edit (short press).
-    # Precondition: mode_enable[0]=1, divider count ≈ CPS//2.
+    # Exit seconds edit -> minutes edit (short press).
+    # Precondition: mode_enable[0]=1, divider count ~ CPS//2.
     # As button[3] rises, clock_divider_run drops to 0 (line 165).
     # The divider counter resets to 0 on the next posedge; count advances
     # to 1 (mode_enable[1]=1) and the divider is released.
@@ -96,7 +96,7 @@ async def test_divider_reset_on_exit_seconds_edit(dut):
     )
     cocotb.log.info(
         f"After CPS//2={CPS // 2} cycles: seconds_disp still "
-        f"{int(dut.seconds_disp.value)} — divider reset confirmed"
+        f"{int(dut.seconds_disp.value)} - divider reset confirmed"
     )
 
     # --- Assertion 2: tick fires within the next CPS cycles ---
@@ -109,10 +109,10 @@ async def test_divider_reset_on_exit_seconds_edit(dut):
     )
     cocotb.log.info(
         f"After CPS//2+CPS cycles: seconds_disp={int(dut.seconds_disp.value)} "
-        f"— first post-exit tick confirmed"
+        f"- first post-exit tick confirmed"
     )
 
-    # --- Assertion 3: no spurious reset when leaving minutes edit (→ hours edit) ---
+    # --- Assertion 3: no spurious reset when leaving minutes edit (-> hours edit) ---
     # After assertion 2 the divider is approximately CPS//2 cycles into its
     # period.  Exiting minutes edit and waiting CPS//2 cycles puts the
     # divider past its terminal count, so a tick IS expected within that
@@ -131,5 +131,5 @@ async def test_divider_reset_on_exit_seconds_edit(dut):
     )
     cocotb.log.info(
         f"After CPS//2 cycles in hours edit: seconds_disp={int(dut.seconds_disp.value)} "
-        f"— no spurious reset confirmed (divider continued counting)"
+        f"- no spurious reset confirmed (divider continued counting)"
     )

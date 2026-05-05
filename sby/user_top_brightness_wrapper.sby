@@ -1,0 +1,31 @@
+[tasks]
+cps_8k
+cps_24k
+
+[options]
+mode prove
+depth 3
+
+[engines]
+smtbmc z3
+
+[script]
+read -sv -formal mod_n_counter.sv
+read -sv -formal user_top.sv
+read -sv -formal user_top_brightness_wrapper.sv
+read -sv -formal user_top_brightness_wrapper_assert.sv
+
+cps_8k:
+chparam -set CYCLES_PER_SECOND 8000 user_top_brightness_wrapper_assert
+
+cps_24k:
+chparam -set CYCLES_PER_SECOND 24_000 user_top_brightness_wrapper_assert
+--
+
+prep -top user_top_brightness_wrapper_assert
+
+[files]
+rtl/mod_n_counter.sv
+rtl/user_top.sv
+rtl/user_top_brightness_wrapper.sv
+sby/user_top_brightness_wrapper_assert.sv

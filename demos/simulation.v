@@ -3,8 +3,8 @@
 //
 // SystemVerilog simulators changed how they handle always @(*) blocks
 // at initialization time: they are no longer run automatically. Therefore,
-// the following code does not simulate correctly under a SystemVerilog simulator.
-// Change always @(*) to always_comb and the code will simulate correctly again.
+// the following code behaves differently under a SystemVerilog simulator.
+// Change always @(*) to always_comb to recover the intended behaviour.
 //
 // To use Verilog:
 //

@@ -13,15 +13,14 @@ async def step(dut):
 async def test_key_synchroniser(dut):
     cocotb.start_soon(Clock(dut.clk, 10, unit="ns").start())
     dut.key_n.value = 0b1111  # all released (active-low)
+    await Timer(1, unit="ns")
 
     # --- Test 0: port widths and initial values ---
     cocotb.log.info("Test 0: port widths are 4 bits and flip-flops initialise to zero")
     assert len(dut.key_sync) == 4, (
         f"key_sync should be 4 bits wide, got {len(dut.key_sync)}"
     )
-    assert len(dut.key_n) == 4, (
-        f"key_n should be 4 bits wide, got {len(dut.key_n)}"
-    )
+    assert len(dut.key_n) == 4, f"key_n should be 4 bits wide, got {len(dut.key_n)}"
     assert int(dut.key_sync.value) == 0, (
         f"key_sync must be 0 at initialisation, got {int(dut.key_sync.value)}"
     )

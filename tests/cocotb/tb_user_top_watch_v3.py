@@ -86,8 +86,8 @@ async def test_edit_logic(dut):
     # Section 2: enter seconds edit; single presses of inc and dec each
     #            move seconds by exactly one step
     # -----------------------------------------------------------------------
-    cocotb.log.info("Section 2: seconds edit — single inc and dec steps")
-    await press_mode(dut, HOLD)  # long press → enter edit, seconds selected
+    cocotb.log.info("Section 2: seconds edit - single inc and dec steps")
+    await press_mode(dut, HOLD)  # long press -> enter edit, seconds selected
     await tick_n(dut, 3)
 
     # Capture the current seconds value: the 1 Hz tick may have fired during
@@ -107,7 +107,7 @@ async def test_edit_logic(dut):
     )
 
     # -----------------------------------------------------------------------
-    # Section 3: dec wraps seconds 0 → 59
+    # Section 3: dec wraps seconds 0 -> 59
     # -----------------------------------------------------------------------
     cocotb.log.info("Section 3: dec wraps seconds 0 to 59")
     # Navigate to 0 first: the 1 Hz tick may have advanced seconds during the
@@ -120,7 +120,7 @@ async def test_edit_logic(dut):
     assert int(dut.seconds_disp.value) == 59, "seconds must wrap from 0 to 59 on dec"
 
     # -----------------------------------------------------------------------
-    # Section 4: inc wraps seconds 59 → 0
+    # Section 4: inc wraps seconds 59 -> 0
     # -----------------------------------------------------------------------
     cocotb.log.info("Section 4: inc wraps seconds 59 to 0")
     await press_inc(dut, SHORT)
@@ -128,7 +128,7 @@ async def test_edit_logic(dut):
     assert int(dut.seconds_disp.value) == 0, "seconds must wrap from 59 to 0 on inc"
 
     # -----------------------------------------------------------------------
-    # Section 5: auto-repeat — exact inc counts
+    # Section 5: auto-repeat - exact inc counts
     # Holding for INC_HOLD + N*INC_REPEAT cycles produces exactly 2+N
     # increments: 1 from the initial rise pulse, N in-press repeats, plus
     # 1 post-release repeat at the tick() after button release.  The
@@ -136,8 +136,8 @@ async def test_edit_logic(dut):
     # the last in-press edge, and held is still high at the tick() edge
     # before button_hold_detect captures button=0.
     # -----------------------------------------------------------------------
-    cocotb.log.info("Section 5: auto-repeat — exact inc counts")
-    # Boundary: one cycle short of the hold threshold → exactly 1, no repeat
+    cocotb.log.info("Section 5: auto-repeat - exact inc counts")
+    # Boundary: one cycle short of the hold threshold -> exactly 1, no repeat
     seconds_before = int(dut.seconds_disp.value)
     await press_inc(dut, INC_QUAL - 1)
     await tick_n(dut, 3)
@@ -164,10 +164,10 @@ async def test_edit_logic(dut):
         )
 
     # -----------------------------------------------------------------------
-    # Section 6: auto-repeat — exact dec counts
+    # Section 6: auto-repeat - exact dec counts
     # -----------------------------------------------------------------------
-    cocotb.log.info("Section 6: auto-repeat — exact dec counts")
-    # Boundary: one cycle short of the hold threshold → exactly 1, no repeat
+    cocotb.log.info("Section 6: auto-repeat - exact dec counts")
+    # Boundary: one cycle short of the hold threshold -> exactly 1, no repeat
     seconds_before = int(dut.seconds_disp.value)
     await press_dec(dut, INC_QUAL - 1)
     await tick_n(dut, 3)
@@ -205,18 +205,18 @@ async def test_edit_logic(dut):
     )
 
     # Cycle through remaining fields to exit edit mode:
-    # seconds → minutes → hours → normal
+    # seconds -> minutes -> hours -> normal
     await press_mode(dut, 2)
     await press_mode(dut, 2)
     await press_mode(dut, 2)
     await tick_n(dut, 3)
 
     # -----------------------------------------------------------------------
-    # Section 8: minutes edit — inc and dec adjust minutes
+    # Section 8: minutes edit - inc and dec adjust minutes
     # -----------------------------------------------------------------------
-    cocotb.log.info("Section 8: minutes edit — inc and dec adjust minutes")
-    await press_mode(dut, HOLD)  # long press → seconds selected
-    await press_mode(dut, 2)  # short press → minutes selected
+    cocotb.log.info("Section 8: minutes edit - inc and dec adjust minutes")
+    await press_mode(dut, HOLD)  # long press -> seconds selected
+    await press_mode(dut, 2)  # short press -> minutes selected
     await tick_n(dut, 3)
 
     minutes_snap = int(dut.minutes_disp.value)
@@ -233,10 +233,10 @@ async def test_edit_logic(dut):
     )
 
     # -----------------------------------------------------------------------
-    # Section 9: hours edit — inc and dec adjust hours
+    # Section 9: hours edit - inc and dec adjust hours
     # -----------------------------------------------------------------------
-    cocotb.log.info("Section 9: hours edit — inc and dec adjust hours")
-    await press_mode(dut, 2)  # short press → hours selected
+    cocotb.log.info("Section 9: hours edit - inc and dec adjust hours")
+    await press_mode(dut, 2)  # short press -> hours selected
     await tick_n(dut, 3)
 
     hours_snap = int(dut.hours_disp.value)

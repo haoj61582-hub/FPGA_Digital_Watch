@@ -18,7 +18,7 @@ SOURCES = [
 # CYCLES_PER_SECOND=10 gives:
 #   HOLD threshold = 10 cycles
 #   PWM period     =  5 cycles  (2 Hz)
-#   PWM high       =  1 cycle   (20% → 80% display on)
+#   PWM high       =  1 cycle   (20% -> 80% display on)
 CYCLES_PER_SECOND = 10
 
 

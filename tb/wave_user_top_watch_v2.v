@@ -50,7 +50,7 @@ module wave_user_top_watch_v2;
     #550;  // 55 cycles held high
 
     button[3] = 0;
-    #200;  // 20 cycles released; observe seconds flashing (4+ PWM cycles visible)
+    #1000;  // 100 cycles released; observe seconds flashing (4 PWM cycles visible)
 
     // --- Short press 1: advance seconds -> minutes ---
     // Rising edge detected while armed; mod-3 counter advances to 1.
@@ -58,14 +58,14 @@ module wave_user_top_watch_v2;
     button[3] = 1;
     #100;  // 10 cycles
     button[3] = 0;
-    #200;  // 20 cycles released; observe minutes flashing
+    #1000;  // 100 cycles released; observe minutes flashing (4 PWM cycles visible)
 
     // --- Short press 2: advance minutes -> hours ---
     // Counter advances to 2; mode_enable becomes 3'b100.
     button[3] = 1;
     #100;
     button[3] = 0;
-    #200;  // observe hours flashing
+    #1000;  // 100 cycles released; observe hours flashing (4 PWM cycles visible)
 
     // --- Short press 3: exit edit mode ---
     // disarm condition fires (count==2 && enable_counter); latch clears.

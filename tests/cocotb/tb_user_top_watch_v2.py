@@ -77,15 +77,15 @@ async def test_mode_selection(dut):
 
     CPS = int(dut.CYCLES_PER_SECOND.value)
     HOLD   = CPS            # long-press threshold (one simulated second)
-    PERIOD = CPS // 2       # PWM period in cycles  (0.5 s → 2 Hz)
-    HIGH   = CPS // 10      # PWM high duration     (0.1 s → 20% → 80% on)
+    PERIOD = CPS // 2       # PWM period in cycles  (0.5 s -> 2 Hz)
+    HIGH   = CPS // 10      # PWM high duration     (0.1 s -> 20% -> 80% on)
     LOW    = PERIOD - HIGH  # PWM low duration      (0.4 s)
     cocotb.log.info(
         f"CPS={CPS}  HOLD={HOLD}  PWM period={PERIOD}  high={HIGH}  low={LOW}"
     )
 
     # -----------------------------------------------------------------------
-    # Section 1: normal mode — all blank signals are 0
+    # Section 1: normal mode - all blank signals are 0
     # -----------------------------------------------------------------------
     cocotb.log.info("Section 1: normal mode, blank_* all zero")
     await tick_n(dut, 3)
@@ -106,10 +106,10 @@ async def test_mode_selection(dut):
     assert int(dut.blank_hours.value)   == 0, "blank_hours must stay 0 for HOLD-1 press"
 
     # -----------------------------------------------------------------------
-    # Section 3: exactly HOLD cycles enters edit mode — seconds field selected
+    # Section 3: exactly HOLD cycles enters edit mode - seconds field selected
     # -----------------------------------------------------------------------
     # After HOLD rising edges held goes high; the release tick fires the
-    # pulse and arms the latch — the minimum press that enters edit mode.
+    # pulse and arms the latch - the minimum press that enters edit mode.
     cocotb.log.info(f"Section 3: press of exactly {HOLD} cycles enters edit mode, seconds selected")
     await press(dut, HOLD)
     await tick_n(dut, 3)
@@ -180,7 +180,7 @@ async def test_mode_selection(dut):
     )
 
     # -----------------------------------------------------------------------
-    # Section 7: short press exits edit mode — all blank signals return to 0
+    # Section 7: short press exits edit mode - all blank signals return to 0
     # -----------------------------------------------------------------------
     cocotb.log.info("Section 7: short press exits edit mode")
     await press(dut, 2)

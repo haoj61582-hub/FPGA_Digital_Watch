@@ -16,9 +16,20 @@ def get_rtl_root() -> Path:
         return PROJECT_ROOT / "rtl"
 
     path = Path(rtl_dir).expanduser()
-    if not path.is_absolute():
-        path = PROJECT_ROOT / path
-    return path
+    if path.is_absolute():
+        return path.resolve()
+
+    # Relative paths: try cwd first (standard Unix convention), then
+    # project root as a fallback. This lets both "RTL_DIR=rtl_solution"
+    # from the project root and "RTL_DIR=../rtl_solution" from tests/ work,
+    # and avoids breaking when conftest is imported from a subprocess
+    # (e.g. cocotb's pytest assertion-rewriting hook) with a different cwd.
+    for base in (Path.cwd(), PROJECT_ROOT):
+        candidate = (base / path).resolve()
+        if candidate.is_dir():
+            return candidate
+
+    return (PROJECT_ROOT / path).resolve()
 
 
 RTL_ROOT = get_rtl_root()
@@ -104,6 +115,7 @@ def cocotb_runner(sim_name):
             timescale=("1ns", "1ps"),
             build_dir=build_dir,
             always=True,
+            build_args=["-y", str(RTL_ROOT), "-Y", ".sv"],
         )
 
         runner.test(

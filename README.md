@@ -3,24 +3,26 @@
 This repository provides the starter code, automated testing infrastructure including formal verification tools, and the development environment (via a VS Code dev container) for the Digital Watch Project.
 
 - Project documentation is in `docs/`.
-- **Currently only Assignment 1 is available.**
-- Version 1.1
-- Release Date: 27 April 2026
+  - Assignment #1 Version 1.3
+  - Assignment #2 Version 1.0
+- Project Version 1.3
+- Release Date: 2 May 2026
 
 ## Quick Start Checklist
 
-1. Install VS Code, Docker Desktop, and the VS Code `Dev Containers` extension.
-2. Download or clone this repository.
+1. Install VS Code, Docker Desktop, Git, and the VS Code `Dev Containers` extension.
+2. Git clone this repository.
 3. Ensure Docker Desktop is running.
 4. Open this folder in VS Code.
 5. Select `Reopen in Container` when prompted.
 
-If no prompt appears, run `Dev Containers: Reopen in Container` from the Command Palette.
+If you do not see the prompt, ensure that the `.devcontainer` folder is at the top level of your project. Open the root directory in VS Code (not a parent folder). Then, run `Dev Containers: Reopen in Container` from the Command Palette.
 
 ## Important Notes
 
 1. You are responsible for maintaining regular backups of your work. Git is strongly recommended, although it is not essential.
 2. During the project, you may be asked to update to a newer version of this repository. This is a common scenario in real-world, team-based development. You can either run `git pull` or download the new version to a separate folder and copy your current `rtl/` directory into it. (This is why you should only modify files within the `rtl/` directory.)
+3. If you encounter unexpected behavior, first try running `Dev Containers: Rebuild Container`.
 
 ## Why Use VS Code for This Project?
 

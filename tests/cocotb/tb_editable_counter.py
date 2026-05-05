@@ -106,7 +106,7 @@ async def test_editable_counter(dut):
         )
     dut.inc.value = 0
 
-    # --- Test 8: edit mode dec counts down each cycle and wraps 0 → N-1 ---
+    # --- Test 8: edit mode dec counts down each cycle and wraps 0 -> N-1 ---
     cocotb.log.info("Test 8: edit mode dec counts down each cycle and wraps 0 to N-1")
     start = int(dut.count.value)
     dut.dec.value = 1

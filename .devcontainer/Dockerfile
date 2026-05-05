@@ -4,7 +4,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN sed -i 's|archive.ubuntu.com|mirror.aarnet.edu.au|' /etc/apt/sources.list.d/ubuntu.sources
 
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     git \
@@ -17,7 +16,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpython3-dev \
     iverilog \
     verilator \
+    perl-doc \
     yosys \
+    graphviz \
     z3 \
     locales \
     ca-certificates \
@@ -36,3 +37,12 @@ RUN pip install --no-cache-dir --upgrade pip \
 
 COPY sby/bin /usr/local/bin
 COPY sby/share /usr/local/share
+
+ARG TARGETARCH
+RUN --mount=type=bind,source=arch,target=/archs \
+    if [ -d "/archs/$TARGETARCH" ]; then \
+      install -m 0755 /archs/$TARGETARCH/bin/* /usr/local/bin/; \
+    else \
+      echo "No binaries for TARGETARCH=$TARGETARCH"; \
+    fi
+    

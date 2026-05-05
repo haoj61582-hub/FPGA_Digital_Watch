@@ -52,15 +52,15 @@ async def test_timekeeping(dut):
     # -----------------------------------------------------------------------
     # The k-th seconds tick fires at edge k*CPS.  We are at edge 1.
     cocotb.log.info(f"Section 2: seconds_disp advances every {CPS} cycles")
-    await tick_n(dut, CPS - 1)           # total: CPS edges → seconds = 1
+    await tick_n(dut, CPS - 1)           # total: CPS edges -> seconds = 1
     assert int(dut.seconds_disp.value) == 1, \
         f"seconds_disp should be 1 after {CPS} edges"
-    await tick_n(dut, CPS)               # total: 2*CPS edges → seconds = 2
+    await tick_n(dut, CPS)               # total: 2*CPS edges -> seconds = 2
     assert int(dut.seconds_disp.value) == 2, \
         f"seconds_disp should be 2 after {2 * CPS} edges"
 
     # -----------------------------------------------------------------------
-    # Section 3: seconds rolls over 59→0 and minutes_disp increments
+    # Section 3: seconds rolls over 59->0 and minutes_disp increments
     # -----------------------------------------------------------------------
     # The 60th seconds tick fires at edge 60*CPS.  We are at edge 2*CPS.
     cocotb.log.info("Section 3: seconds rolls over 59->0; minutes_disp increments")
@@ -73,7 +73,7 @@ async def test_timekeeping(dut):
         "hours_disp must remain 0 after only one minute"
 
     # -----------------------------------------------------------------------
-    # Section 4: minutes rolls over 59→0 and hours_disp increments
+    # Section 4: minutes rolls over 59->0 and hours_disp increments
     # -----------------------------------------------------------------------
     # The 60th minutes tick fires at edge 60*60*CPS.  We are at edge 60*CPS.
     cocotb.log.info("Section 4: minutes rolls over 59->0; hours_disp increments")

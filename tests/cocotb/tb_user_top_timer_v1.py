@@ -61,7 +61,7 @@ async def test_timer(dut):
     assert int(dut.minutes_disp.value) == 0, "minutes must stay 0 when started at zero"
 
     # -----------------------------------------------------------------------
-    # Section 3: long press button[3] enters edit mode — seconds field selected
+    # Section 3: long press button[3] enters edit mode - seconds field selected
     # -----------------------------------------------------------------------
     cocotb.log.info("Section 3: long press enters seconds edit mode")
     await press(dut, 3, HOLD)
@@ -107,12 +107,12 @@ async def test_timer(dut):
     # Section 6: advance through hours edit and exit edit mode
     # -----------------------------------------------------------------------
     cocotb.log.info("Section 6: advance to hours edit then exit")
-    await press(dut, 3, SHORT)   # minutes → hours
+    await press(dut, 3, SHORT)   # minutes -> hours
     await tick_n(dut, 3)
     assert int(dut.blank_seconds.value) == 0, "blank_seconds must be 0 when hours selected"
     assert int(dut.blank_minutes.value) == 0, "blank_minutes must be 0 when hours selected"
 
-    await press(dut, 3, SHORT)   # hours → exit
+    await press(dut, 3, SHORT)   # hours -> exit
     await tick_n(dut, 3)
     assert int(dut.blank_seconds.value) == 0, "blank_seconds must be 0 after exiting edit"
     assert int(dut.blank_minutes.value) == 0, "blank_minutes must be 0 after exiting edit"
@@ -158,9 +158,60 @@ async def test_timer(dut):
     # Section 10: timer must have auto-stopped at zero; pressing start again
     # does nothing because at_zero holds running at 0
     # -----------------------------------------------------------------------
-    cocotb.log.info("Section 10: auto-stopped — start does nothing at 00:00:00")
+    cocotb.log.info("Section 10: auto-stopped - start does nothing at 00:00:00")
     await press(dut, 0, SHORT)
     await tick_n(dut, CPS + 3)
     assert int(dut.seconds_disp.value) == 0, "timer must not restart from zero"
     assert int(dut.minutes_disp.value) == 0, "minutes must remain 0"
     assert int(dut.hours_disp.value)   == 0, "hours must remain 0"
+
+
+@cocotb.test()
+async def test_countdown_delay_and_period(dut):
+    """First decrement is delayed CPS cycles after start; subsequent decrements are CPS cycles apart."""
+    cocotb.start_soon(Clock(dut.clk, 10, unit="ns").start())
+    dut.button.value = 0
+    dut.sw.value = 0
+    await tick(dut)
+
+    CPS = int(dut.CYCLES_PER_SECOND.value)
+    HOLD = CPS
+    SHORT = 2
+
+    # Set up 00:00:03 via edit mode (DUT is at 00:00:00, not running)
+    await press(dut, 3, HOLD)          # long press -> enter edit mode, seconds selected
+    await tick_n(dut, 3)
+    for _ in range(3):
+        await press(dut, 1, SHORT)     # increment seconds
+        await tick_n(dut, 3)
+    await press(dut, 3, SHORT)         # seconds -> minutes
+    await tick_n(dut, 3)
+    await press(dut, 3, SHORT)         # minutes -> hours
+    await tick_n(dut, 3)
+    await press(dut, 3, SHORT)         # hours -> exit edit mode
+    await tick_n(dut, 3)
+    assert int(dut.seconds_disp.value) == 3, "setup: seconds must be 3 before timing test"
+
+    # Press start.  running goes high at posedge 1 (inside press); the
+    # restartable_rate_generator fires its first tick at posedge CPS+1 from
+    # that edge, which is CPS-2 posedges after press() returns.
+    await press(dut, 0, SHORT)
+
+    # CPS-3 posedges after press: one posedge short of the first tick.
+    await tick_n(dut, CPS - 3)
+    assert int(dut.seconds_disp.value) == 3, \
+        "seconds must not decrement before the initial CPS-cycle delay has elapsed"
+
+    # 2 more posedges: the first tick has now fired.
+    await tick_n(dut, 2)
+    assert int(dut.seconds_disp.value) == 2, \
+        "seconds must decrement to 2 after the initial CPS-cycle delay"
+
+    # Each subsequent CPS-cycle period produces exactly one more decrement.
+    await tick_n(dut, CPS)
+    assert int(dut.seconds_disp.value) == 1, \
+        "seconds must decrement to 1 after the second CPS-cycle period"
+
+    await tick_n(dut, CPS)
+    assert int(dut.seconds_disp.value) == 0, \
+        "seconds must decrement to 0 after the third CPS-cycle period"
