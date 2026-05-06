@@ -24,8 +24,7 @@ module mod_n_counter #(
   always_ff @(posedge clk) begin
     if (rst) begin
       count <= '0;
-    end 
-    else if (enable) begin
+    end else if (enable) begin
       count <= next_count;
     end
   end
