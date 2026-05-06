@@ -10,7 +10,9 @@ module restartable_rate_generator #(
 );
 
   logic tick_qualifier;
-  logic running = 1'b0;
+  logic running;
+
+  initial running = 1'b0;
 
   always_ff @(posedge clk) begin
     running <= run;
@@ -45,5 +47,4 @@ module restartable_rate_generator #(
   endgenerate
 
 endmodule
-
 

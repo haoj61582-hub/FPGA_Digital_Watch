@@ -1,11 +1,10 @@
 `timescale 1ns / 1ps
 
 module hms_counter #(
-    parameter int N_HOURS = 24,  //number of hours
-    parameter int N_MINUTES = 60, //number of minutes
-    parameter int N_SECONDS = 60,  //number of seconds
-    //// Output port widths
-    parameter int W_HOURS = 5,
+    parameter int N_HOURS   = 24,
+    parameter int N_MINUTES = 60,
+    parameter int N_SECONDS = 60,
+    parameter int W_HOURS   = 5,
     parameter int W_MINUTES = 6,
     parameter int W_SECONDS = 6
 ) (
@@ -15,8 +14,6 @@ module hms_counter #(
     output logic [W_MINUTES-1:0] minutes,
     output logic [W_SECONDS-1:0] seconds
 );
-
-  localparam logic [W_HOURS-1:0] MaxHours = W_HOURS'(N_HOURS - 1);
   localparam logic [W_MINUTES-1:0] MaxMinutes = W_MINUTES'(N_MINUTES - 1);
   localparam logic [W_SECONDS-1:0] MaxSeconds = W_SECONDS'(N_SECONDS - 1);
 
