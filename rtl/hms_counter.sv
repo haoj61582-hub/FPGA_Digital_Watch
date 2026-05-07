@@ -1,12 +1,12 @@
 `timescale 1ns / 1ps
 
 module hms_counter #(
-    parameter int N_HOURS   = 24,
-    parameter int N_MINUTES = 60,
-    parameter int N_SECONDS = 60,
-    parameter int W_HOURS   = 5,
-    parameter int W_MINUTES = 6,
-    parameter int W_SECONDS = 6
+    parameter int N_HOURS   = 24,  //numbere of hours in the counter
+    parameter int N_MINUTES = 60,  //number of minutes in the counter
+    parameter int N_SECONDS = 60,  //number of seconds in the counter
+    parameter int W_HOURS   = 5,   //width of the hours counter
+    parameter int W_MINUTES = 6,   //width of the minutes counter
+    parameter int W_SECONDS = 6    //width of the seconds counter
 ) (
     input logic clk,
     input logic enable,
