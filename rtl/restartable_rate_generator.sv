@@ -2,15 +2,15 @@
 `timescale 1ns / 1ps
 
 module restartable_rate_generator #(
-    parameter int CYCLE_COUNT = 2
+    parameter int CYCLE_COUNT = 2  // Number of cycles between ticks
 ) (
-    input logic clk,
-    input logic run,
+    input  logic clk,
+    input  logic run,
     output logic tick
 );
 
-  logic tick_qualifier;
-  logic running;
+  logic tick_qualifier;  // Indicates when a tick should be generated, based on the cycle count
+  logic running;  // Indicates whether the generator is currently running
 
   initial running = 1'b0;
 

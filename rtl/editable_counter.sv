@@ -6,7 +6,7 @@ module editable_counter #(
 ) (
     input logic clk,
     input logic tick,
-    input logic edit_mode,  //when high, inc and dec inputs are active. when low, the counter is incremented by tick events
+    input logic edit_mode,  //when high, inc and dec inputs are active. when low, the counter is incremented by tick
     input logic inc,  //inc and dec are only active when edit_mode is high. If both are high, inc takes precedence
     input logic dec,  //inc and dec are only active when edit_mode is high. If both are high, inc takes precedence
     output logic [WIDTH-1:0] count
